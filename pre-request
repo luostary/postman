@@ -1,0 +1,17 @@
+console.log("Pre-request-auth");
+var settings = {
+  "url": "http://localhost:8080/api-v2-1/auth/login",
+  "method": "POST",
+  "timeout": 0,
+  "header": {
+        "Authorization": 'Basic ' + btoa(pm.environment.get('LOGIN') + ':' + pm.environment.get('PASSWORD')),
+        "Content-Type": "application/json",
+  },
+  "data": JSON.stringify({"a":2}),
+};
+
+pm.sendRequest(settings, (err, res) => {
+     const { token } = res.json();
+     pm.globals.set('ACCESS_TOKEN', token);
+     console.log('ACCESS_TOKEN: ' + pm.globals.get('ACCESS_TOKEN'));
+});
